@@ -7,10 +7,7 @@ from tkinter.messagebox import showinfo
 
 
 class View():
-    def __init__(self, controller):
-        # Set Controller
-        self.controller = controller
-
+    def __init__(self, info=None):
         # Inicializando o tkinter
         self.root = tk.Tk()
 
@@ -21,9 +18,6 @@ class View():
 
         # Generate Interface
         self.generateInterface()
-
-        # Mantendo em Loop
-        self.run()
 
         # Clicar na tecla ESC e sair
         self.root.bind('<Escape>', self.close)
@@ -364,6 +358,10 @@ class View():
                      message=f"{prod['name']} removido com sucesso")
         except:
             showinfo(title='Erro', message="ERRO, Tente novamente!")
+
+    # Controller
+    def setController(self, controller):
+        self.controller = controller
 
     # Manter em loop
     def run(self):

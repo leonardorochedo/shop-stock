@@ -1,32 +1,30 @@
 import pymongo
 
-client = pymongo.MongoClient('localhost', 27017)  # create connectionn
-db = client.shop  # create db if not exist
-products = db.products  # create collection
-
 
 class Model:
 
     def __init__(self):
-        pass
+        self.client = pymongo.MongoClient(
+            'localhost', 27017)  # create connectionn
+        self.db = self.client.shop  # create db if not exist
+        self.products = self.db.products  # create collection
 
-    def getAllProductsModel():
+    def getAllProductsModel(self):
         listProducts = []
-        prods = products.find()
+        prods = self.products.find()
         for prod in prods:
-            print(prod)
             listProducts.append(prod)
 
         return listProducts
 
-    def searchProductModel(name):
+    def searchProductModel(self, name):
         try:
-            prod = products.find_one({'searchable': name.upper()})
+            prod = self.products.find_one({'searchable': name.upper()})
             return prod
         except:
             return 0
 
-    def createProductModel(name, price, size, qtd):
+    def createProductModel(self, name, price, size, qtd):
         product = {
             'name': name,
             'searchable': name.upper(),
@@ -35,13 +33,13 @@ class Model:
             'qtd': qtd
         }
         try:
-            products.insert_one(product)
+            self.products.insert_one(product)
             return 1
         except:
             return 0
 
-    def editProductModel(prevName, nextName, nextPrice, nextSize, nextQtd):
-        prevProduct = products.find_one({'searchable': prevName.upper()})
+    def editProductModel(self, prevName, nextName, nextPrice, nextSize, nextQtd):
+        prevProduct = self.products.find_one({'searchable': prevName.upper()})
         newProduct = {'$set': {
             'name': nextName,
             'searchable': nextName.upper(),
@@ -50,15 +48,15 @@ class Model:
             'qtd': nextQtd
         }}
         try:
-            products.update_one(prevProduct, newProduct)
+            self.products.update_one(prevProduct, newProduct)
             return 1
         except:
             return 0
 
-    def deleteProductModel(name):
+    def deleteProductModel(self, name):
         try:
-            prod = products.find_one({'searchable': name.upper()})
-            products.delete_one(prod)
+            prod = self.products.find_one({'searchable': name.upper()})
+            self.products.delete_one(prod)
             return prod
         except:
             return 0

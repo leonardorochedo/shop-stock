@@ -5,4 +5,7 @@ from Model import Model
 View = View(Controller)
 Model = Model()
 # Passando os argumentos necessarios pro controller
-Controller = Controller()
+Controller = Controller(View, Model)
+
+View.setController(Controller)
+View.run()
