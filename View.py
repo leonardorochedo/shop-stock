@@ -367,6 +367,6 @@ class View():
     def run(self):
         self.root.mainloop()
 
-    # Fechar velha
+    # Fechar App
     def close(self, evento=None):
         sys.exit()
